@@ -42,7 +42,6 @@
 ****************************************************************** */
 .row, .column {
     box-sizing: border-box;
-    display: flex;
     flex: 0 1 auto;
     flex-direction: row;
     flex-wrap: wrap;
@@ -52,14 +51,6 @@
 
 .column {
     flex-direction: column;
-}
-
-.row.reverse {
-    flex-direction: row-reverse;
-}
-
-.column.reverse {
-    flex-direction: column-reverse;
 }
 
 /* default column settings */
@@ -75,6 +66,10 @@
 /* ******************************************************************
     RULES FOR HIDDEN ELEMENTS
 ****************************************************************** */
+.hidden {
+    display: none;
+}
+
 .hidden-xs {
     @media @query-xs {
         display: none;
@@ -143,7 +138,25 @@
     .generate-offset(@prefix, @n, (@i + 1));
 }
 
+.generate-flex-row-column( @postfix: ~"" ) {
+    
+    .row@{postfix}, .column@{postfix} {
+        display: flex;
+    }
+
+    .row@{postfix}.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .column@{postfix}.reverse {
+        flex-direction: column-reverse;
+    }
+}
+
 .generate-defaults( @postfix ) {
+
+    .generate-flex-row-column( @postfix );
+    
     .justify-start@{postfix} {
       justify-content: flex-start;
       text-align: start;
@@ -196,6 +209,7 @@
     DEFINITION OF ALL THE ELEMENTS
 ****************************************************************** */
 
+.generate-flex-row-column( );
 .generate-columns(~"xs" );
 .generate-offset( ~"xs" );
 

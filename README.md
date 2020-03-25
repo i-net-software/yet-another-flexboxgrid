@@ -20,8 +20,10 @@ The default - and customizable - values are:
 
 Defining Rows and Columns
 
-	.row, .column
-	.rom.reverse, .column.reverse
+	.row, .row-xs ...
+	.column, .row-xs ...
+	.row.reverse, .row-xs.reverse ...
+	.column.reverse, .column-xs.reverse ...
 
 Defining column sizes
 
@@ -43,6 +45,7 @@ Offset for column sizes
 Hiding columns in a specific screensize
 
 	.hidden-xs, .hidden-sm, .hidden-md, .hidden-lg, .hidden-xl
+	.hidden // generally hidden
 
 Flex `justify-align` and `text-align`
 

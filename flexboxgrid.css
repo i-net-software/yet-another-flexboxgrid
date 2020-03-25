@@ -13,7 +13,6 @@
 .row,
 .column {
   box-sizing: border-box;
-  display: flex;
   flex: 0 1 auto;
   flex-direction: row;
   flex-wrap: wrap;
@@ -22,12 +21,6 @@
 }
 .column {
   flex-direction: column;
-}
-.row.reverse {
-  flex-direction: row-reverse;
-}
-.column.reverse {
-  flex-direction: column-reverse;
 }
 /* default column settings */
 *[class*=col-] {
@@ -41,6 +34,9 @@
 /* ******************************************************************
     RULES FOR HIDDEN ELEMENTS
 ****************************************************************** */
+.hidden {
+  display: none;
+}
 @media screen and (max-width:  785px ), only screen and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
   .hidden-xs {
     display: none;
@@ -72,10 +68,30 @@
 /* ******************************************************************
     DEFINITION OF ALL THE ELEMENTS
 ****************************************************************** */
+.row,
+.column {
+  display: flex;
+}
+.row.reverse {
+  flex-direction: row-reverse;
+}
+.column.reverse {
+  flex-direction: column-reverse;
+}
 .col-xs {
   flex-grow: 1;
   flex-basis: 0;
   max-width: 100%;
+}
+.row-xs,
+.column-xs {
+  display: flex;
+}
+.row-xs.reverse {
+  flex-direction: row-reverse;
+}
+.column-xs.reverse {
+  flex-direction: column-reverse;
 }
 .justify-start-xs {
   justify-content: flex-start;
@@ -202,6 +218,16 @@
     flex-grow: 1;
     flex-basis: 0;
     max-width: 100%;
+  }
+  .row-sm,
+  .column-sm {
+    display: flex;
+  }
+  .row-sm.reverse {
+    flex-direction: row-reverse;
+  }
+  .column-sm.reverse {
+    flex-direction: column-reverse;
   }
   .justify-start-sm {
     justify-content: flex-start;
@@ -330,6 +356,16 @@
     flex-basis: 0;
     max-width: 100%;
   }
+  .row-md,
+  .column-md {
+    display: flex;
+  }
+  .row-md.reverse {
+    flex-direction: row-reverse;
+  }
+  .column-md.reverse {
+    flex-direction: column-reverse;
+  }
   .justify-start-md {
     justify-content: flex-start;
     text-align: start;
@@ -457,6 +493,16 @@
     flex-basis: 0;
     max-width: 100%;
   }
+  .row-lg,
+  .column-lg {
+    display: flex;
+  }
+  .row-lg.reverse {
+    flex-direction: row-reverse;
+  }
+  .column-lg.reverse {
+    flex-direction: column-reverse;
+  }
   .justify-start-lg {
     justify-content: flex-start;
     text-align: start;
@@ -583,6 +629,16 @@
     flex-grow: 1;
     flex-basis: 0;
     max-width: 100%;
+  }
+  .row-xl,
+  .column-xl {
+    display: flex;
+  }
+  .row-xl.reverse {
+    flex-direction: row-reverse;
+  }
+  .column-xl.reverse {
+    flex-direction: column-reverse;
   }
   .justify-start-xl {
     justify-content: flex-start;
