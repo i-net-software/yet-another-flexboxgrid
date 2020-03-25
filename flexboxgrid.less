@@ -1,0 +1,220 @@
+/* ******************************************************************
+    STANDARD SETTINGS OF THE CURRENT GRID
+****************************************************************** */
+
+@grid-columns: 12;       // Number of columns to generate
+@grid-gutter: .5rem;     // gutter between the cells
+
+@grid-gutter-width: @grid-gutter;
+@grid-gutter-height: @grid-gutter / 3 * 2;
+@grid-gutter-compensation: @grid-gutter-width * -1;
+
+/* ******************************************************************
+    DEFINITION OF SCREEN SIZES
+****************************************************************** */
+@query-xs-max-width: 786px;
+@query-sm-max-width: 1024px;
+@query-md-max-width: 1200px;
+@query-lg-max-width: 1800px;
+
+/* IPAD PRO SPECIFIC SIZES */
+@ipadpro-landscape: ~"only screen and (min-device-width: 834px) and (max-device-width: 1366px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2)";
+@ipadpro-portrait: ~"only screen and (min-device-width: 834px) and (max-device-width: 1366px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2)";
+
+/* Mobile and mobile iOS phone devices */
+@query-xs: ~"screen and (max-width: " (@query-xs-max-width - 1) ~"), only screen and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)";
+
+/* Midsize and iOS tablet devices */
+@query-sm: ~"screen and (min-width: " @query-xs-max-width ~"), only screen and (min-device-width: 786px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1), " @ipadpro-portrait;
+
+@query-sm-only: ~"screen and (min-width: " @query-xs-max-width ~") and (max-width: " ( @query-sm-max-width - 1) ~"), only screen and (min-device-width: 786px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1)";
+
+@query-md: ~"screen and (min-width: " @query-sm-max-width ~"), " @ipadpro-landscape;
+@query-md-only: ~"screen and (min-width: " @query-sm-max-width ~") and (max-width: " (@query-md-max-width - 1) ~"), " @ipadpro-landscape;
+
+@query-lg: ~"screen and (min-width:" @query-md-max-width ~")";
+@query-lg-only: ~"screen and (min-width:" @query-md-max-width ~") and (max-width: " @query-lg-max-width ~")";
+
+@query-xl: ~"screen and (min-width:" @query-lg-max-width ~")";
+
+/* ******************************************************************
+    BEGIN OF ROW AND COLUMN DEFINITION
+****************************************************************** */
+.row, .column {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-right: @grid-gutter-compensation;
+    margin-left: @grid-gutter-compensation;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.row.reverse {
+    flex-direction: row-reverse;
+}
+
+.column.reverse {
+    flex-direction: column-reverse;
+}
+
+/* default column settings */
+*[class*=col-] {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    flex-basis: 100%;
+    padding-right: @grid-gutter-width;
+    padding-left: @grid-gutter-width;
+    max-width: 100%;
+}
+
+/* ******************************************************************
+    RULES FOR HIDDEN ELEMENTS
+****************************************************************** */
+.hidden-xs {
+    @media @query-xs {
+        display: none;
+    }
+}
+
+.hidden-sm {
+    @media @query-sm-only {
+        display: none;
+    }
+}
+
+.hidden-md {
+    @media @query-md-only {
+        display: none;
+    }
+}
+
+.hidden-lg {
+    @media @query-lg-only {
+        display: none;
+    }
+}
+
+.hidden-xl {
+    @media @query-xl {
+        display: none;
+    }
+}
+
+/* ******************************************************************
+    MIXINS TO GENERATE COLUMNS
+****************************************************************** */
+@columnWidth: 100 / @grid-columns;
+.valueSize( @cols:1, @element: ~"max-width" ) {
+    @value: percentage( @cols * @columnWidth / 100);
+	@{element}: @value;
+}
+
+.columnWidth( @cols:1 ) {
+    .valueSize( @cols );
+    .valueSize( @cols, ~"flex-basis" );
+}
+
+.generate-columns(@prefix, @n: @grid-columns, @i: 1) when (@i = 1) {
+    .col-@{prefix} {
+        flex-grow: 1;
+        flex-basis: 0;
+        max-width: 100%;
+    }
+    
+    .generate-defaults( ~"-@{prefix}" );
+}
+
+.generate-columns(@prefix, @n: @grid-columns, @i: 1) when (@i =< @n) {
+    .col-@{prefix}-@{i} {
+        .columnWidth( @i );
+    }
+    .generate-columns(@prefix, @n, (@i + 1));
+}
+
+.generate-offset(@prefix, @n: @grid-columns, @i: 1) when (@i =< @n) {
+    .col-@{prefix}-offset-@{i} {
+        .valueSize( @i, ~"margin-left" );
+    }
+    .generate-offset(@prefix, @n, (@i + 1));
+}
+
+.generate-defaults( @postfix ) {
+    .justify-start@{postfix} {
+      justify-content: flex-start;
+      text-align: start;
+    }
+    
+    .justify-center@{postfix} {
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .justify-end@{postfix} {
+      justify-content: flex-end;
+      text-align: end;
+    }
+    
+    .justify-space-around@{postfix} {
+      justify-content: space-around;
+    }
+    
+    .justify-space-between@{postfix} {
+      justify-content: space-between;
+    }
+    
+    .align-top@{postfix} {
+      align-items: flex-start;
+    }
+    
+    .align-center@{postfix} {
+      align-items: center;
+    }
+    
+    .align-bottom@{postfix} {
+      align-items: flex-end;
+    }
+
+    .order-first@{postfix} {
+      order: -1;
+    }
+    
+    .order-last@{postfix} {
+      order: 1;
+    }
+    
+    .order-initial@{postfix} {
+      order: initial;
+    }
+}
+
+/* ******************************************************************
+    DEFINITION OF ALL THE ELEMENTS
+****************************************************************** */
+
+.generate-columns(~"xs" );
+.generate-offset( ~"xs" );
+
+@media @query-sm {
+    .generate-columns(~"sm" );
+    .generate-offset( ~"sm" );
+}
+
+@media @query-md {
+    .generate-columns(~"md" );
+    .generate-offset( ~"md" );
+}
+
+@media @query-lg {
+    .generate-columns(~"lg" );
+    .generate-offset( ~"lg" );
+}
+
+@media @query-xl {
+    .generate-columns(~"xl" );
+    .generate-offset( ~"xl" );
+}
