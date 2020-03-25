@@ -63,4 +63,12 @@ Flex `order`
 	.order-first, order-first-xs ...
 	.order-last, order-last-xs ...
 	.order-initial, order-initial-xs ...
-		
+
+## Creating the CSS files
+
+	# install less compiler
+	npm install -g less less-plugin-clean-css
+	
+	# create compiled files
+	lessc flexboxgrid.less flexboxgrid.css
+	lessc --plugin=less-plugin-clean-css flexboxgrid.less flexboxgrid.min.css
