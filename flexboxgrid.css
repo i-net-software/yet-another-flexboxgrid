@@ -78,6 +78,39 @@
 .column.reverse {
   flex-direction: column-reverse;
 }
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.justify-space-around {
+  justify-content: space-around;
+}
+.justify-space-between {
+  justify-content: space-between;
+}
+.align-top {
+  align-items: flex-start;
+}
+.align-center {
+  align-items: center;
+}
+.align-bottom {
+  align-items: flex-end;
+}
+.order-first {
+  order: -1;
+}
+.order-last {
+  order: 1;
+}
+.order-initial {
+  order: initial;
+}
 .col-xs {
   flex-grow: 1;
   flex-basis: 0;

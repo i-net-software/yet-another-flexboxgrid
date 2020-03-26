@@ -153,7 +153,7 @@
     }
 }
 
-.generate-defaults( @postfix ) {
+.generate-defaults( @postfix: ~"" ) {
 
     .generate-flex-row-column( @postfix );
     
@@ -206,7 +206,7 @@
     DEFINITION OF ALL THE ELEMENTS
 ****************************************************************** */
 
-.generate-flex-row-column( );
+.generate-defaults();
 .generate-columns(~"xs" );
 .generate-offset( ~"xs" );
 
