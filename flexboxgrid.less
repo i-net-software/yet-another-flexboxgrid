@@ -54,7 +54,7 @@
 }
 
 /* default column settings */
-*[class*=col-] {
+[class*=col-] {
     box-sizing: border-box;
     flex: 0 0 auto;
     flex-basis: 100%;
@@ -64,40 +64,10 @@
 }
 
 /* ******************************************************************
-    RULES FOR HIDDEN ELEMENTS
+    RULES FOR HIDDEN/SHOWN ELEMENTS
 ****************************************************************** */
-.hidden {
+[class*=show-] {
     display: none;
-}
-
-.hidden-xs {
-    @media @query-xs {
-        display: none;
-    }
-}
-
-.hidden-sm {
-    @media @query-sm-only {
-        display: none;
-    }
-}
-
-.hidden-md {
-    @media @query-md-only {
-        display: none;
-    }
-}
-
-.hidden-lg {
-    @media @query-lg-only {
-        display: none;
-    }
-}
-
-.hidden-xl {
-    @media @query-xl {
-        display: none;
-    }
 }
 
 /* ******************************************************************
@@ -115,25 +85,28 @@
 }
 
 .generate-columns(@prefix, @n: @grid-columns, @i: 1) when (@i = 1) {
-    .col-@{prefix} {
+    .col@{prefix} {
         flex-grow: 1;
         flex-basis: 0;
         max-width: 100%;
     }
     
-    .generate-defaults( ~"-@{prefix}" );
+    .generate-defaults( @prefix );
 }
 
 .generate-columns(@prefix, @n: @grid-columns, @i: 1) when (@i =< @n) {
-    .col-@{prefix}-@{i} {
+    .col@{prefix}-@{i} {
         .columnWidth( @i );
     }
     .generate-columns(@prefix, @n, (@i + 1));
 }
 
 .generate-offset(@prefix, @n: @grid-columns, @i: 1) when (@i =< @n) {
-    .col-@{prefix}-offset-@{i} {
+    .col@{prefix}-offset-@{i} {
         .valueSize( @i, ~"margin-left" );
+    }
+    .col@{prefix}-negative-offset-@{i} {
+        .valueSize( -@i, ~"margin-left" );
     }
     .generate-offset(@prefix, @n, (@i + 1));
 }
@@ -158,48 +131,107 @@
     .generate-flex-row-column( @postfix );
     
     .justify-start@{postfix} {
-      justify-content: flex-start;
+        justify-content: flex-start;
     }
     
     .justify-center@{postfix} {
-      justify-content: center;
+        justify-content: center;
     }
     
     .justify-end@{postfix} {
-      justify-content: flex-end;
+        justify-content: flex-end;
     }
     
     .justify-space-around@{postfix} {
-      justify-content: space-around;
+        justify-content: space-around;
     }
     
     .justify-space-between@{postfix} {
-      justify-content: space-between;
+        justify-content: space-between;
     }
     
     .align-top@{postfix} {
-      align-items: flex-start;
+        align-items: flex-start;
     }
     
     .align-center@{postfix} {
-      align-items: center;
+        align-items: center;
     }
     
     .align-bottom@{postfix} {
-      align-items: flex-end;
+        align-items: flex-end;
     }
 
     .order-first@{postfix} {
-      order: -1;
+        order: -1;
     }
     
     .order-last@{postfix} {
-      order: 1;
+        order: 1;
     }
     
     .order-initial@{postfix} {
-      order: initial;
+        order: initial;
     }
+    
+    .text-align-left@{postfix} {
+        text-align: left;
+    }
+    
+    .text-align-right@{postfix} {
+        text-align: right;
+    }
+    
+    .text-align-center@{postfix} {
+        text-align: center;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        .header-align-left@{postfix} & {
+            text-align: left;
+        }
+        
+        .header-align-right@{postfix} & {
+            text-align: right;
+        }
+        
+        .header-align-center@{postfix} & {
+            text-align: center;
+        }
+    }
+}
+
+/* ******************************************************************
+    MIXINS TO GENERATE CONECT FOR EACH MEDIAQUERY
+****************************************************************** */
+
+._withPostfix( @postfix: ~"" ) {
+    @instructions( );
+}
+
+._forEach( @query, @postfix ) {
+    @media @query {
+        ._withPostfix( ~"-@{postfix}" );
+    }
+}
+
+.forEachMediaQuery( @instructions ) {
+    ._withPostfix();
+    ._withPostfix( ~"-xs" );
+    ._forEach( @query-sm, ~"sm" );
+    ._forEach( @query-md, ~"md" );
+    ._forEach( @query-lg, ~"lg" );
+    ._forEach( @query-xl, ~"xl" );
+}
+
+
+.forEachMediaQueryOnly( @instructions ) {
+    ._withPostfix();
+    ._forEach( @query-xs, ~"xs" );
+    ._forEach( @query-sm-only, ~"sm" );
+    ._forEach( @query-md-only, ~"md" );
+    ._forEach( @query-lg-only, ~"lg" );
+    ._forEach( @query-xl, ~"xl" );
 }
 
 /* ******************************************************************
@@ -207,25 +239,16 @@
 ****************************************************************** */
 
 .generate-defaults();
-.generate-columns(~"xs" );
-.generate-offset( ~"xs" );
+.forEachMediaQuery({
+    .generate-columns( @postfix );
+    .generate-offset( @postfix );
+});
 
-@media @query-sm {
-    .generate-columns(~"sm" );
-    .generate-offset( ~"sm" );
-}
-
-@media @query-md {
-    .generate-columns(~"md" );
-    .generate-offset( ~"md" );
-}
-
-@media @query-lg {
-    .generate-columns(~"lg" );
-    .generate-offset( ~"lg" );
-}
-
-@media @query-xl {
-    .generate-columns(~"xl" );
-    .generate-offset( ~"xl" );
-}
+.forEachMediaQueryOnly({
+    .hidden@{postfix} {
+        display: none;
+    }
+    .show@{postfix} {
+        display: initial;
+    }
+});

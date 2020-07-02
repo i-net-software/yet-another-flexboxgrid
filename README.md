@@ -47,6 +47,10 @@ Hiding columns in a specific screensize
 	.hidden-xs, .hidden-sm, .hidden-md, .hidden-lg, .hidden-xl
 	.hidden // generally hidden
 
+Showing columns in a specific screensize
+
+	.show-xs, .show-sm, .show-md, .show-lg, .show-xl
+
 Flex `justify-align` and `text-align`
 
 	.justify-start, .justify-start-xs ...
